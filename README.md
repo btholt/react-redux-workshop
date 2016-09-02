@@ -35,8 +35,8 @@ Open a new file (anyway, doesn't matter; maybe on your desktop) and call it `wha
 </head>
 <body>
   <div id="root">nothing rendered yet</div>
-  <script src='https://npmcdn.com/react@15.3.0/dist/react.min.js'></script>
-  <script src='https://npmcdn.com/react-dom@15.3.0/dist/react-dom.min.js'></script>
+  <script src='https://unpkg.com/react@15.3.0/dist/react.min.js'></script>
+  <script src='https://unpkg.com/react-dom@15.3.0/dist/react-dom.min.js'></script>
   <script>
     // code goes here
   </script>
@@ -44,7 +44,7 @@ Open a new file (anyway, doesn't matter; maybe on your desktop) and call it `wha
 </html>
 ```
 
-We are now ready to write some Reacts. We're including both React and ReactDOM from npmcdn (thanks Michael Jackson, author of React Router.) These two packages are required to React up and going. React is the package common amongst React (for web,) React Native, A-Frame React (for WebVR,) React-Blessed (for CLI,) etc. It's the basic architecture of React; it has no concept of how to render itself, only how to create new components. ReactDOM is what takes the components we're about to create and actually renders them out to the DOM. It's the connecting layer between the code and the actual view.
+We are now ready to write some Reacts. We're including both React and ReactDOM from unpkg (thanks Michael Jackson, author of React Router.) These two packages are required to React up and going. React is the package common amongst React (for web,) React Native, A-Frame React (for WebVR,) React-Blessed (for CLI,) etc. It's the basic architecture of React; it has no concept of how to render itself, only how to create new components. ReactDOM is what takes the components we're about to create and actually renders them out to the DOM. It's the connecting layer between the code and the actual view.
 
 Okay, open this page in a browser. `File >> Open` and then select the file and open it should work. You should see `nothing rendered yet`. Put the following code into the open script tag:
 
@@ -223,7 +223,7 @@ JSX is a tiny extension to JavaScript specifically for React (though other frame
 Add the following script tag above your other script tags.
 
 ```html
-<script src="https://npmcdn.com/babel-standalone@6.12.0/babel.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.12.0/babel.min.js"></script>
 ```
 
 Change the opening script tag of your code block from `<script>` to be
