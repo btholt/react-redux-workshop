@@ -32,6 +32,11 @@ const App = React.createClass({
       this.setState({pets})
     })
   },
+  changeAnimal (animal) {
+    this.setState({animal, breed: ''}, () => {
+      this.search()
+    })
+  },
   changeBreed (breed) {
     this.setState({breed}, () => {
       this.search()
@@ -45,6 +50,7 @@ const App = React.createClass({
           animal={this.state.animal}
           breed={this.state.breed}
           changeBreed={this.changeBreed}
+          changeAnimal={this.changeAnimal}
         />
         <div>
           {this.state.pets.map((pet) => {
