@@ -1,5 +1,7 @@
 import React from 'react'
 import petfinder, { ANIMALS } from './petfinder-client'
+import { setBreed } from './actionCreators'
+import { connect } from 'react-redux'
 const pf = petfinder()
 
 const SearchControls = React.createClass({
@@ -25,7 +27,7 @@ const SearchControls = React.createClass({
       })
   },
   handleBreedChange (event) {
-    this.props.changeBreed(event.target.value)
+    this.props.dispatch(setBreed(event.target.value))
   },
   handleAnimalChange (event) {
     this.props.changeAnimal(event.target.value)
@@ -60,7 +62,17 @@ const SearchControls = React.createClass({
   }
 })
 
-export default SearchControls
+const mapStateToProps = function (state) {
+  return {
+    breed: state.breed
+  }
+}
+
+export default connect(mapStateToProps)(SearchControls)
+
+
+
+
 
 
 

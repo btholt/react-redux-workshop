@@ -4,13 +4,14 @@ import credentials from './credentials'
 import petfinder from './petfinder-client'
 import PetList from './PetList'
 import SearchControls from './SearchControls'
+import { Provider, connect } from 'react-redux'
+import store from './store'
 const pf = petfinder(credentials)
 
 const App = React.createClass({
   getInitialState () {
     return {
       animal: 'dog',
-      breed: 'Havanese',
       location: 'San Francisco, CA',
       pets: [],
       favorites: []
@@ -20,7 +21,8 @@ const App = React.createClass({
     this.search()
   },
   search () {
-    const { animal, breed, location } = this.state
+    const { animal, location } = this.state
+    const { breed } = this.props
     const promise = pf.pet.find({
       animal: animal,
       breed: breed,
@@ -35,11 +37,6 @@ const App = React.createClass({
   },
   changeAnimal (animal) {
     this.setState({animal, breed: ''}, () => {
-      this.search()
-    })
-  },
-  changeBreed (breed) {
-    this.setState({breed}, () => {
       this.search()
     })
   },
@@ -61,8 +58,6 @@ const App = React.createClass({
         <img src={logo} alt='adopt-me logo' />
         <SearchControls
           animal={this.state.animal}
-          breed={this.state.breed}
-          changeBreed={this.changeBreed}
           changeAnimal={this.changeAnimal}
         />
         <PetList
@@ -82,4 +77,35 @@ const App = React.createClass({
   }
 })
 
-export default App
+const mapStateToProps = function(state) {
+  return {
+    breed: state.breed
+  }
+}
+
+const ConnectedApp = connect(mapStateToProps)(App)
+const ProvidedApp = function (props) {
+  return (
+    <Provider store={store}>
+      <ConnectedApp />
+    </Provider>
+  )
+}
+
+export default ProvidedApp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
