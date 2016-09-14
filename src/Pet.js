@@ -1,6 +1,9 @@
 import React from 'react'
 
 const Pet = React.createClass({
+  handleFavoriteChange () {
+    this.props.toggleFavorite(this.props.pet, !this.props.favorite)
+  },
   render () {
     const photos = this.props.pet.media ? this.props.pet.media.photos.photo.filter((photo) => {
       return photo['@size'] === 'pn'
@@ -10,6 +13,7 @@ const Pet = React.createClass({
 
     return (
       <div className='pet'>
+        <input type='checkbox' checked={this.props.favorite} onChange={this.handleFavoriteChange} />
         <div>
           {photos.map((photo, index) => {
             return (

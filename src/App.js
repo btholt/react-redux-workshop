@@ -2,7 +2,7 @@ import React from 'react'
 import logo from './adopt-me.png'
 import credentials from './credentials'
 import petfinder from './petfinder-client'
-import Pet from './Pet'
+import PetList from './PetList'
 import SearchControls from './SearchControls'
 const pf = petfinder(credentials)
 
@@ -12,7 +12,8 @@ const App = React.createClass({
       animal: 'dog',
       breed: 'Havanese',
       location: 'San Francisco, CA',
-      pets: []
+      pets: [],
+      favorites: []
     }
   },
   componentDidMount () {
@@ -42,6 +43,18 @@ const App = React.createClass({
       this.search()
     })
   },
+  toggleFavorite(pet, toAdd) {
+    let favorites = this.state.favorites
+    if (toAdd) {
+      favorites = favorites.concat(pet)
+    } else {
+      favorites = favorites.filter((current) => {
+        return pet.id !== current.id
+      })
+    }
+
+    this.setState({favorites: favorites})
+  },
   render () {
     return (
       <div className='app'>
@@ -52,13 +65,18 @@ const App = React.createClass({
           changeBreed={this.changeBreed}
           changeAnimal={this.changeAnimal}
         />
-        <div>
-          {this.state.pets.map((pet) => {
-            return (
-              <Pet key={pet.id} pet={pet} />
-            )
-          })}
-        </div>
+        <PetList
+          pets={this.state.pets}
+          title='Search Results'
+          toggleFavorite={this.toggleFavorite}
+          favorites={this.state.favorites}
+        />
+        <PetList
+          pets={this.state.favorites}
+          title='Favorites'
+          toggleFavorite={this.toggleFavorite}
+          favorites={this.state.favorites}
+        />
       </div>
     )
   }
