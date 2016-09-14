@@ -297,7 +297,7 @@ So let's get started. Delete logo.svg. Delete all the CSS. Don't need to delete 
 If you have not already, go sign up for a dev account with [Petfinder][petfinder]. You're going to need credentials to be able to make requests to Petfinder. Once you have your key and secret, create a file called credentials.js and put this in there:
 
 ```javascript
-export default = {
+export default {
   key: "<your key here>",
   secret: "<your secret here>"
 }
