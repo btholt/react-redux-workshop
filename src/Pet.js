@@ -24,8 +24,8 @@ const Pet = React.createClass({
           </li>
           <li>{this.props.pet.age}</li>
           <li>{this.props.pet.contact.city}, {this.props.pet.contact.state}</li>
-          <p>{description}</p>
         </ul>
+        <p>{description}</p>
       </div>
     )
   }
