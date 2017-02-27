@@ -1,6 +1,7 @@
 import React from 'react'
 import credentials from './credentials'
 import petfinder from './petfinder-client'
+import Pet from './Pet'
 const pf = petfinder(credentials)
 
 class App extends React.Component {
@@ -27,9 +28,11 @@ class App extends React.Component {
       <div className='app'>
         <img src='adopt-me.png' alt='adopt-me logo' />
         <div>
-          <pre><code>
-            {JSON.stringify(this.state, null, 4)}
-          </code></pre>
+          {this.state.pets.map((pet) => {
+            return (
+              <Pet key={pet.id} pet={pet} />
+            )
+          })}
         </div>
       </div>
     )
