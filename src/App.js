@@ -17,6 +17,7 @@ class App extends React.Component {
     }
 
     this.changeBreed = this.changeBreed.bind(this)
+    this.changeAnimal = this.changeAnimal.bind(this)
   }
   componentDidMount () {
     this.search()
@@ -32,6 +33,9 @@ class App extends React.Component {
   changeBreed (breed) {
     this.setState({breed}, () => { this.search() })
   }
+  changeAnimal (animal) {
+    this.setState({animal, breed: ''}, () => { this.search() })
+  }
   render () {
     return (
       <div className='app'>
@@ -40,6 +44,7 @@ class App extends React.Component {
           breed={this.state.breed}
           animal={this.state.animal}
           changeBreed={this.changeBreed}
+          changeAnimal={this.changeAnimal}
         />
         <div>
           {this.state.pets.map((pet) => {
