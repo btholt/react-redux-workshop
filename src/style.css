@@ -1,0 +1,78 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #3D9970;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+.app {
+  background-color: rgba(225, 225, 225, .6);
+  margin: 15px auto;
+  width: 650px;
+  border-radius: 6px;
+  padding: 5px;
+}
+
+.app > img {
+  display: block;
+  margin: 0 auto;
+  width: 35%;
+}
+
+.petlist > div > h2 {
+  font-style: italic;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.pet {
+  border: 1px solid #333;
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+.pet > div {
+  width: 50%;
+  min-height: 130px;
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pet > div > img {
+  width: 32%;
+  margin-right: 2%;
+}
+
+.pet > div > img:last-child {
+  margin-right: 0%;
+}
+
+.pet > ul > li:first-child {
+  font-weight: bold;
+}
+
+.pet > p {
+  font-size: 11px;
+}
+
+.search {
+  border: 1px solid #333;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px;
+  text-align: center;
+}
+
+.petlist > h1 {
+  text-align: center;
+  font-size: 30px;
+  margin: 15px 0;
+  font-weight: bold;
+}
