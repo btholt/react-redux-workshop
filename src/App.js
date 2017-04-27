@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import credentials from './credentials';
 import petfinder from './petfinder-client';
 import Pet from './Pet';
+import SearchControls from './SearchControls';
 const pf = petfinder(credentials);
 
 class App extends Component {
@@ -14,6 +15,8 @@ class App extends Component {
       location: 'San Francisco, CA',
       pets: []
     };
+
+    this.changeBreed = this.changeBreed.bind(this);
   }
   componentDidMount() {
     const { animal, breed, location } = this.state;
@@ -29,11 +32,15 @@ class App extends Component {
       this.setState({ pets });
     });
   }
+  changeBreed(breed) {
+    this.setState({ breed });
+  }
   render() {
     return (
       <div className="app">
         <img src="/adopt-me.png" alt="adopt-me logo" />
-        {this.state.pets.map(pet => <Pet pet={pet} />)}
+        <SearchControls breed={this.state.breed} animal={this.state.animal} changeBreed={this.changeBreed} />
+        {this.state.pets.map(pet => <Pet key={pet.id} pet={pet} />)}
       </div>
     );
   }
