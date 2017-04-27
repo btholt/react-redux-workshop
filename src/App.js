@@ -3,6 +3,7 @@ import credentials from './credentials';
 import petfinder from './petfinder-client';
 import Pet from './Pet';
 import SearchControls from './SearchControls';
+import { connect } from 'react-redux';
 const pf = petfinder(credentials);
 
 class App extends Component {
@@ -11,7 +12,6 @@ class App extends Component {
 
     this.state = {
       animal: 'dog',
-      breed: 'Havanese',
       location: 'San Francisco, CA',
       pets: []
     };
@@ -23,7 +23,8 @@ class App extends Component {
     this.search();
   }
   search() {
-    const { animal, breed, location } = this.state;
+    const { animal, location } = this.state;
+    const { breed } = this.props;
     const promise = pf.pet.find({
       animal,
       breed,
@@ -47,7 +48,7 @@ class App extends Component {
       <div className="app">
         <img src="/adopt-me.png" alt="adopt-me logo" />
         <SearchControls
-          breed={this.state.breed}
+          breed={this.props.breed}
           animal={this.state.animal}
           changeBreed={this.changeBreed}
           changeAnimal={this.changeAnimal}
@@ -58,4 +59,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return { breed: state.breed };
+};
+
+const connectToProps = connect(mapStateToProps);
+const ConnectedApp = connectToProps(App);
+export default ConnectedApp;
