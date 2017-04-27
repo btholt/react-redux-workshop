@@ -17,6 +17,19 @@ const Pet = props => {
           <img key={photo.value} alt={`${props.pet.name} number ${index + 1}`} src={photo.value} />
         ))}
       </div>
+      <ul>
+        <li>{props.pet.name}</li>
+        <li>
+          {props.pet.animal}
+          {' '}
+          :
+          {' '}
+          {(Array.isArray(props.pet.breeds.breed) ? props.pet.breeds.breed : [props.pet.breeds.breed]).join(', ')}
+        </li>
+        <li>{props.pet.age}</li>
+        <li>{props.pet.contact.city}, {props.pet.contact.state}</li>
+      </ul>
+      <p>{description.substring(0, MAX_DESCRIPTION_LENGTH)}{description.length > MAX_DESCRIPTION_LENGTH ? '…' : ''}</p>
     </div>
   );
 };
