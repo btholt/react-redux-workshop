@@ -16,7 +16,6 @@ class App extends Component {
       pets: []
     };
 
-    this.changeBreed = this.changeBreed.bind(this);
     this.changeAnimal = this.changeAnimal.bind(this);
   }
   componentDidMount() {
@@ -37,9 +36,6 @@ class App extends Component {
       this.setState({ pets });
     });
   }
-  changeBreed(breed) {
-    this.setState({ breed }, () => this.search());
-  }
   changeAnimal(animal) {
     this.setState({ animal, breed: '' }, () => this.search());
   }
@@ -47,12 +43,7 @@ class App extends Component {
     return (
       <div className="app">
         <img src="/adopt-me.png" alt="adopt-me logo" />
-        <SearchControls
-          breed={this.props.breed}
-          animal={this.state.animal}
-          changeBreed={this.changeBreed}
-          changeAnimal={this.changeAnimal}
-        />
+        <SearchControls animal={this.state.animal} changeBreed={this.changeBreed} changeAnimal={this.changeAnimal} />
         {this.state.pets.map(pet => <Pet key={pet.id} pet={pet} />)}
       </div>
     );

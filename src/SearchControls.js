@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import petfinder, { ANIMALS } from './petfinder-client';
+import { setBreed } from './actionCreators';
 const pf = petfinder();
 
 class SearchControls extends Component {
@@ -57,4 +59,18 @@ class SearchControls extends Component {
   }
 }
 
-export default SearchControls;
+const mapStateToProps = state => {
+  return {
+    breed: state.breed
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeBreed(breed) {
+      dispatch(setBreed(breed));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchControls);
