@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import petfinder from './petfinder-client';
+import petfinder, { ANIMALS } from './petfinder-client';
 const pf = petfinder();
 
 class SearchControls extends Component {
@@ -11,9 +11,15 @@ class SearchControls extends Component {
     };
 
     this.handleBreedChange = this.handleBreedChange.bind(this);
+    this.handleAnimalChange = this.handleAnimalChange.bind(this);
   }
   componentDidMount() {
     this.getNewBreeds(this.props.animal);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.animal && nextProps.animal !== this.props.animal) {
+      this.getNewBreeds(nextProps.animal);
+    }
   }
   getNewBreeds(animal) {
     pf.breed.list({ animal }).then(data => {
@@ -24,6 +30,9 @@ class SearchControls extends Component {
   }
   handleBreedChange(event) {
     this.props.changeBreed(event.target.value);
+  }
+  handleAnimalChange(event) {
+    this.props.changeAnimal(event.target.value);
   }
   render() {
     let breedSelector = null;
@@ -39,6 +48,10 @@ class SearchControls extends Component {
     return (
       <div className="search">
         {breedSelector}
+        <select value={this.props.animal} onChange={this.handleAnimalChange}>
+          <option value="" />
+          {ANIMALS.map(animal => <option key={animal} value={animal}>{animal}</option>)}
+        </select>
       </div>
     );
   }
