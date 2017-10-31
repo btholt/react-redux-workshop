@@ -10,17 +10,7 @@ Welcome to the React + Redux workshop. The stated purpose of this workshop to ge
 
 ## Why Listen to Me
 
-My name is Brian Holt and as of writing, I work at Netflix as a UI Engineer mostly writing React and Node. Previously I worked at reddit where I launched [reddit's first React code][reddit-react]. I've been writing React for nearly 2 1/2 years which is pretty much eternity when it comes to React: it's only been public since March 2013. Luckily for you, I've run into a lot of pitfalls with React and I'm happy to share my experience with you about methods of development that I found useful.
-
-// ## Layout of Workshop
-
-// Here's what we're going to do:
-
-// - Using [create-react-app][cra] to scaffold up a new project
-// - Write our first React components (sans JSX)
-// - Rewrite our component using JSX
-// - Break larger components into small components using composition
-// - Learn about state and props in React
+My name is Brian Holt and I used to work at Netflix as a UI engineer mostly writing React and Node. Previously I worked at reddit where I launched [reddit's first React code][reddit-react]. I've been writing React for nearly 4 years which is pretty much eternity when it comes to React: it's only been public since March 2013. Luckily for you, I've run into a lot of pitfalls with React and I'm happy to share my experience with you about methods of development that I found useful.
 
 ## Let's Write React. Right Now.
 
@@ -35,8 +25,8 @@ Open a new file (anyway, doesn't matter; maybe on your desktop) and call it `wha
 </head>
 <body>
   <div id="root">nothing rendered yet</div>
-  <script src='https://unpkg.com/react@15.3.0/dist/react.min.js'></script>
-  <script src='https://unpkg.com/react-dom@15.3.0/dist/react-dom.min.js'></script>
+  <script src='https://unpkg.com/react@16.0.0/dist/react.min.js'></script>
+  <script src='https://unpkg.com/react-dom@16.0.0/dist/react-dom.min.js'></script>
   <script>
     // code goes here
   </script>
@@ -60,13 +50,13 @@ The ReactDOM stuff is taking your top level element (we'll be making more very s
 ```javascript
 // replace everything in the script tag so far
 var markupExample = React.createElement('div', {},
-  React.createElement('h1', {}, 'My Favorite Netflix Shows'),
+  React.createElement('h1', {}, 'My Favorite Cites to Visit'),
   React.createElement('ul', {},
-    React.createElement('li', {}, 'House of Cards'),
-    React.createElement('li', {}, 'Daredevil'),
-    React.createElement('li', {}, 'Jessica Jones'),
-    React.createElement('li', {}, 'Bloodline'),
-    React.createElement('li', {}, 'Stranger Things')
+    React.createElement('li', {}, 'Tel Aviv'),
+    React.createElement('li', {}, 'Reykjavik'),
+    React.createElement('li', {}, 'Amsterdam'),
+    React.createElement('li', {}, 'Rome'),
+    React.createElement('li', {}, 'Hong Kong')
   )
 )
 
@@ -77,16 +67,16 @@ Here we are making some nested markup. This is the way to do with React. You can
 
 ```javascript
 // replace the codes again
-var { div, h1, ul, li } = React.DOM
+const ce = React.createElement
 var markupExample = (
-  div({},
-    h1({}, 'My Favorite Netflix Shows'),
-    ul({},
-      li({}, 'House of Cards'),
-      li({}, 'Daredevil'),
-      li({}, 'Jessica Jones'),
-      li({}, 'Bloodline'),
-      li({}, 'Stranger Things')
+  ce('div', {},
+    ce('h1', {}, 'My Cities to Visit'),
+    ce('ul', {},
+      ce('li', {}, 'Tel Aviv'),
+      ce('li', {}, 'Reykjavik'),
+      ce('li', {}, 'Amsterdam'),
+      ce('li', {}, 'Rome'),
+      ce('li', {}, 'Hong Kong')
     )
   )
 )
@@ -94,7 +84,7 @@ var markupExample = (
 ReactDOM.render(markupExample, document.getElementById('root'))
 ```
 
-We're using [destructuring][destructuring] to pull some helper methods out of React. These make it so you don't have to write `React.createElement` a bunch of times. I've also seen people write `var c = React.createElement` and then have `c('div', {}, 'string goes here')`. Up to you what you prefer.
+This makes it so you don't have to write `React.createElement` a bunch of times.
 
 We also use `()` to put `div` on its own line. This makes the indentation line up as you would expect it to. It's for readability.
 
@@ -102,36 +92,32 @@ Let's try adding some styling.
 
 ```javascript
 // replace <li>
-li({style: {color: 'red'}}, 'House of Cards'),
-li({style: {color: 'mediumspringgreen'}}, 'Daredevil'),
-li({style: {color: 'rebeccapurple'}}, 'Jessica Jones'),
-li({style: {color: 'peru'}}, 'Bloodline'),
-li({style: {color: 'darkslate'}}, 'Stranger Things')
+ce('li', {style: {color: 'red'}}, 'Tel Aviv'),
+ce('li', {style: {color: 'mediumspringgreen'}}, 'Reykjavik'),
+ce('li', {style: {color: 'rebeccapurple'}}, 'Amsterdam'),
+ce('li', {style: {color: 'peru'}}, 'Rome'),
+ce('li', {style: {color: 'darkslate'}}, 'Hong Kong')
 ```
 
 To change styles in React, we're operating on the style object which is how you do it in JavaScript anyway. But this is how you add properties to a component in React. Okay, since is a bit verbose; let's try to not repeat ourselves so much.
 
 ```javascript
 // replace everything in script tag
-var { div, h1, ul, li } = React.DOM
+var FavoriteCity = () => {
+  return (
+    ce('li', {style: {color: 'red'}}, 'House of Cards')
+  )
+}
 
-var FavoriteShow = React.createClass({
-  render () {
-    return (
-      li({style: {color: 'red'}}, 'House of Cards')
-    )
-  }
-})
-
-var markupExample = (
+var App = () => (
   div({},
-    h1({}, 'My Favorite Netflix Shows'),
+    h1({}, 'My Favorite Cities to Visit'),
     ul({},
-      React.createElement(FavoriteShow, {}),
-      React.createElement(FavoriteShow, {}),
-      React.createElement(FavoriteShow, {}),
-      React.createElement(FavoriteShow, {}),
-      React.createElement(FavoriteShow, {})
+      ce(FavoriteCity, {}),
+      ce(FavoriteCity, {}),
+      ce(FavoriteCity, {}),
+      ce(FavoriteCity, {}),
+      ce(FavoriteCity, {})
     )
   )
 )
@@ -139,62 +125,62 @@ var markupExample = (
 ReactDOM.render(markupExample, document.getElementById('root'))
 ```
 
-So now we have a component called FavoriteShow that is being used in another component. FavoriteShow is called a _composite component_, or a component we've made comprised of other components. But this is less useful than it was before: we only have one show now with one color. Let's fix that.
+So now we have a component called FavoriteCity that is being used in another component. FavoriteCity is called a _composite component_, or a component we've made comprised of other components. But this is less useful than it was before: we only have one show now with one color. Let's fix that.
 
 ```javascript
-// replace render in FavoriteShow
-render () {
+// replace render in FavoriteCity
+var FavoriteCity = () => {
   return (
     li({style: {color: this.props.titleColor}}, this.props.titleName)
   )
 }
 
 // replace <li>s
-React.createElement(FavoriteShow, {titleColor: 'peru', titleName: 'House of Cards'}),
-React.createElement(FavoriteShow, {titleColor: 'rebeccapurple', titleName: 'Jessica Jones'}),
-React.createElement(FavoriteShow, {titleColor: 'lawngreen', titleName: 'Bloodline'}),
-React.createElement(FavoriteShow, {titleColor: 'mediumspringgreen', titleName: 'Daredevil'}),
-React.createElement(FavoriteShow, {titleColor: 'thistle', titleName: 'Bojack Horseman'})
+ce(FavoriteCity, {titleColor: 'peru', titleName: 'Tel Aviv'}),
+ce(FavoriteCity, {titleColor: 'rebeccapurple', titleName: 'Reykjavik'}),
+ce(FavoriteCity, {titleColor: 'lawngreen', titleName: 'Rome'}),
+ce(FavoriteCity, {titleColor: 'mediumspringgreen', titleName: 'Amsterdam'}),
+ce(FavoriteCity, {titleColor: 'thistle', titleName: 'Hong Kong'})
 ```
 
-Okay, this is looking more useful. We have a flexible component that we can give properties from parent (`markupExample`) to the child (`FavoriteShow`). Note that `FavoriteShow` cannot modify that state; it can only read from that. Only the parent can decide which props to give the child; the child just had to deal with it. This is an important concept in React that we'll continue to explore. Let's do one more thing before we add JSX. What if we want to make it so we can click the links and they would toggle if they were bolded or not?
+Okay, this is looking more useful. We have a flexible component that we can give properties from parent (`App`) to the child (`FavoriteCity`). Note that `FavoriteCity` cannot modify that state; it can only read from that. Only the parent can decide which props to give the child; the child just had to deal with it. This is an important concept in React that we'll continue to explore. Let's do one more thing before we add JSX. What if we want to make it so we can click the links and they would toggle if they were bolded or not?
 
 ```javascript
-var FavoriteShow = React.createClass({
-      getInitialState () {
-        return {
-          fontWeightState: 'bold'
-        }
-      },
-      render () {
-        return (
-          li(
-            {
-              style: {
-                fontWeight: this.state.fontWeightState,
-                color: this.props.titleColor
-              }
-            },
-            this.props.titleName
-          )
-        )
-      }
-    })
+class FavoriteCity extends React.Component {
+  constructor {
+    this.state = {
+      fontWeightState: 'bold'
+    }
+  }
+  render () {
+    return (
+      li(
+        {
+          style: {
+            fontWeight: this.state.fontWeightState,
+            color: this.props.titleColor
+          }
+        },
+        this.props.titleName
+      )
+    )
+  }
+}
 ```
 
 Try playing with the initial value of fontWeightState. You'll see that each component has its own state. We are then free to play with that state. Also notice I'm calling the state variable `fontWeightState`: this is a terrible name since it's redundant. However I wanted to show you there's no magic names here: name these variables whatever you want. Let's make it so it toggles boldness back and forth.
 
 ```javascript
-var FavoriteShow = React.createClass({
-  getInitialState () {
-    return {
+class FavoriteCity extends React.Component {
+  constructor {
+    this.state = {
       fontWeightState: 'bold'
     }
-  },
+  }
   toggleFontWeight () {
     var fontWeightState = (this.state.fontWeightState === 'bold') ? 'normal' : 'bold'
     this.setState({fontWeightState})
-  },
+  }
   render () {
     return (
       li(
@@ -209,7 +195,7 @@ var FavoriteShow = React.createClass({
       )
     )
   }
-})
+}
 ```
 
 This is how you make the components respond to interaction. And notice that state is mutable via the `setState` API. State is mutable (can be changed) while props are immutable (cannot be changed.) We give it an onClick property which points to a method we want to call once that particular event happens. There's also onSubmit, onChange, etc. Notice all we have to do is setState and then React will handle the rest: it'll kick off a re-render and update the DOM for you. We just have to tell React "Given these states and props, our component will look like this." That's what rad about React: we just have to tell it what to look like for a given set on inputs. You don't have to reason any more about it than that. Also, it's cool that each component is managing its own state: some can be bolded and some not.
@@ -223,7 +209,7 @@ JSX is a tiny extension to JavaScript specifically for React (though other frame
 Add the following script tag above your other script tags.
 
 ```html
-<script src="https://unpkg.com/babel-standalone@6.12.0/babel.min.js"></script>
+<script src='https://unpkg.com/@babel/standalone@7.0.0-beta.4/babel.min.js'></script>
 ```
 
 Change the opening script tag of your code block from `<script>` to be
@@ -237,7 +223,7 @@ This is an in-browser transform of your code to allow you to use ES6 and JSX dir
 So let's go try it converting one of our components to use JSX (you can mix the two syntaxes, we don't have to do it all at once.)
 
 ```javascript
-// replace FavoriteShow render
+// replace FavroiteCity render
 render () {
   return (
     <li onClick={this.toggleFontWeight} style={{fontWeight: this.state.fontWeightState, color: this.props.titleColor }}>
@@ -250,23 +236,21 @@ render () {
 It looks like HTML, right? Whenever you see the `{}` inside of JSX, it means that a JavaScript expression comes between them. For example, we could say `{this.props.titleName.toUpperCase()}` and that would totally work. For the style attribute, notice the two sets of `{}`. The outer set are for the JS expression denotation. The inner set are for the JavaScript object notation for the styles. That's it! Let's convert the markupExample.
 
 ```javascript
-var markupExample = (
+var App = () => (
   <div>
-    <h1>My Favorite Shows!</h1>
+    <h1>My Favorite Cities to Visit</h1>
     <ul>
-      <FavoriteShow titleColor='peru' titleName='House of Cards' />
-      <FavoriteShow titleColor='rebeccapurple' titleName='Jessica Jones' />
-      <FavoriteShow titleColor='lawngreen' titleName='Stranger Things' />
-      <FavoriteShow titleColor='thistle' titleName='Daredevil' />
-      <FavoriteShow titleColor='mediumspringgreen' titleName='Bojack Horseman' />
+      <FavoriteCity titleColor='peru' titleName='House of Cards' />
+      <FavoriteCity titleColor='rebeccapurple' titleName='Jessica Jones' />
+      <FavoriteCity titleColor='lawngreen' titleName='Stranger Things' />
+      <FavoriteCity titleColor='thistle' titleName='Daredevil' />
+      <FavoriteCity titleColor='mediumspringgreen' titleName='Bojack Horseman' />
     </ul>
   </div>
 )
 ```
 
-Even cleaner, right? Really easy to quickly digest, just like JSX. Anything with a lowercase letter is going to be literally that tag output to the DOM (like `div` and `ul`) and anything uppercase will be a composite component (like `FavoriteShow`). This is an enforced convention. You must do it this way.
-
-`markupExample` in this case is an _instance_ or a _element_ of React components. `FavoriteShow` is a class; it's the blueprint for creating more components of that type. It's a subtle difference but important. It's like having `class Dog {}` and `var myDog = new Dog()`. Dog would be like FavoriteShow, it's a class, a blueprint to make a bunch of Dogs. myDog would be like markupExample, it's one particular instance of Dog.
+Even cleaner, right? Really easy to quickly digest, just like JSX. Anything with a lowercase letter is going to be literally that tag output to the DOM (like `div` and `ul`) and anything uppercase will be a composite component (like `FavoriteCity`). This is an enforced convention. You must do it this way.
 
 So, now we have the basics of React down. Let's move on to making our app.
 
