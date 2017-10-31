@@ -276,6 +276,8 @@ If you look at your package.json, you'll see they've included React, ReactDOM, a
 
 All the code you write is going to go in the `src` directory. We're going to put all our files here.
 
+Check out `public`. All your statically served assets will come from here.
+
 So let's get started. Delete logo.svg. Delete all the CSS. Don't need to delete App.js or index.js but we're going to rewrite everything inside of them. You're also going to need to grab some source files from me: the API client and the CSS for the project. Grab [these files][project-files] and put them all in the src directory. You'll also need to `npm install --save jsonp` to make the API client work.
 
 If you have not already, go sign up for a dev account with [Petfinder][petfinder]. You're going to need credentials to be able to make requests to Petfinder. Once you have your key and secret, create a file called credentials.js and put this in there:
@@ -294,13 +296,13 @@ Open App.js. Delete everything. Let's start building our app! Put the following 
 ```javascript
 import React from 'react'
 
-const App = React.createClass({
+class App extends React.Component {
   render () {
     return (
       <h1>hi lolol</h1>
     )
   }
-})
+}
 
 export default App
 ```
@@ -327,9 +329,10 @@ import credentials from './credentials'
 import petfinder from './petfinder-client'
 const pf = petfinder(credentials)
 
-const App = React.createClass({
-  getInitialState () {
-    return {
+class App extends React.Component {
+  constructor (props) {
+    super (props)
+    this.state = {
       animal: 'dog',
       breed: 'Havanese',
       location: 'San Francisco, CA',
@@ -342,7 +345,6 @@ const App = React.createClass({
     promise.then((data) => {
       const pets = data.petfinder.pets ?  data.petfinder.pets.pet : []
       this.setState({pets})
-      console.log(data)
     })
   },
   render () {
@@ -355,13 +357,13 @@ const App = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default App
 ```
 
 - Instantiate our API client. We have to give it credentials to be able make requests.
-- getInitialState we're going to set some defaults for what kinds of animals we're going to request
+- constructor we're going to set some defaults for what kinds of animals we're going to request
 - componentDidMount is one of the React lifecycle methods. This particular one runs right after the component gets put onto the DOM. This means it will render once before this method gets run. If you notice when we load the page, pets is an empty array, then it populates. This is what you want. You want render something and then make the user wait for the data to come in. It makes your page feel faster. componentDidMount is the place for AJAX, adding event listeners, interfacing with other libraries like jQuery, etc. componentDidMount does **not** get run in node environments.
 - There is also componentWillMount if you need to do something in both Node and in the browser, or before something gets put onto the DOM. This is rare. componentWillUnmount is for cleaning up when a component will leave the DOM. Usually this is for cleaning up setIntervals, event listeners, and anything that would cause a memory leak. There's also componentWillReceiveProps but we'll talk about that when we need it.
 - You should see the data you get back from the API. Let's go make it display something!
@@ -383,7 +385,7 @@ export default App
 import React from 'react'
 const MAX_DESCRIPTION_LENGTH = 150
 
-const Pet = React.createClass({
+class Pet extends React.Component {
   render () {
     const photos = this.props.pet.media ? this.props.pet.media.photos.photo.reduce((acc, photo) => {
       if (photo['@size'] === 'pn') {
@@ -409,7 +411,7 @@ const Pet = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default Pet
 ```
@@ -436,12 +438,10 @@ import React from 'react'
 import petfinder from './petfinder-client'
 const pf = petfinder()
 
-const SearchControls = React.createClass({
-  getInitialState () {
-    return {
-      breeds: []
-    }
-  },
+class SearchControls extends React.Component {
+  state = {
+    breeds: []
+  }
   componentDidMount () {
     this.getNewBreeds(this.props.animal)
   },
@@ -471,7 +471,7 @@ const SearchControls = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default SearchControls
 ```
@@ -565,7 +565,7 @@ changeAnimal (animal) {
 import React from 'react'
 import Pet from './Pet'
 
-const PetList = React.createClass({
+class PetList extends React.Component {
   render () {
     let pets
     if (this.props.pets.length > 0) {
@@ -589,7 +589,7 @@ const PetList = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default PetList
 ```
@@ -1061,25 +1061,21 @@ import store from './store'
 import PetList from './PetList'
 import SearchControls from './SearchControls'
 
-const App = React.createClass({
-  render () {
-    return (
-      <Provider store={store}>
-        <div className='app'>
-          <img src='src/adopt-me.png' alt='adopt-me logo' />
-          <SearchControls />
-          <PetList
-            title={'Search Results'}
-          />
-          <PetList
-            isFavorites
-            title={'Favorites'}
-          />
-        </div>
-      </Provider>
-    )
-  }
-})
+const App = () => (
+  <Provider store={store}>
+    <div className='app'>
+      <img src='src/adopt-me.png' alt='adopt-me logo' />
+      <SearchControls />
+      <PetList
+        title={'Search Results'}
+      />
+      <PetList
+        isFavorites
+        title={'Favorites'}
+      />
+    </div>
+  </Provider>
+)
 
 export default App
 ```
