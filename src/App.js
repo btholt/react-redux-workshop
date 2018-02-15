@@ -4,8 +4,8 @@ import store from './store'
 import PetList from './PetList'
 import SearchControls from './SearchControls'
 
-const App = React.createClass({
-  render () {
+class App extends React.Component {
+  render() {
     return (
       <Provider store={store}>
         <div className='app'>
@@ -22,6 +22,6 @@ const App = React.createClass({
       </Provider>
     )
   }
-})
+}
 
 export default App

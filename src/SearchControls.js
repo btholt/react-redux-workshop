@@ -3,18 +3,21 @@ import { connect } from 'react-redux'
 import { setBreed, setAnimal, search, getBreeds } from './actionCreators'
 import { ANIMALS } from './petfinder-client'
 
-const SearchControls = React.createClass({
-  componentDidMount () {
+class SearchControls extends React.Component {
+  componentDidMount() {
     this.props.dispatch(search())
     this.props.dispatch(getBreeds())
-  },
-  handleAnimalChange (e) {
+  }
+
+  handleAnimalChange = (e) => {
     this.props.dispatch(setAnimal(e.target.value))
-  },
-  handleBreedChange (e) {
+  };
+
+  handleBreedChange = (e) => {
     this.props.dispatch(setBreed(e.target.value))
-  },
-  render () {
+  };
+
+  render() {
     const breedSelector = !this.props.animal ? null : (
       <select value={this.props.breed} onChange={this.handleBreedChange}>
         <option value=''></option>
@@ -35,7 +38,7 @@ const SearchControls = React.createClass({
       </div>
     )
   }
-})
+}
 
 const mapStateToProps = function (state) {
   return {

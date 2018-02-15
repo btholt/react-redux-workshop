@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import { ADD_FAVORITE, REMOVE_FAVORITE } from './actions'
 const MAX_DESCRIPTION_LENGTH = 150
 
-const Pet = React.createClass({
-  handleFavoriteChange () {
+class Pet extends React.Component {
+  handleFavoriteChange = () => {
     this.props.dispatch({pet: this.props.pet, type: this.props.favorite ? REMOVE_FAVORITE : ADD_FAVORITE })
-  },
-  render () {
+  };
+
+  render() {
     const photos = this.props.pet.media ? this.props.pet.media.photos.photo.reduce((acc, photo) => {
       if (photo['@size'] === 'pn') {
         acc.push(photo.value)
@@ -33,6 +34,6 @@ const Pet = React.createClass({
       </div>
     )
   }
-})
+}
 
 export default connect()(Pet)

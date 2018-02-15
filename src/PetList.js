@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Pet from './Pet'
 
-const PetList = React.createClass({
-  render () {
+class PetList extends React.Component {
+  render() {
     let petList = this.props.isFavorites ? this.props.favorites : this.props.pets
     let pets
     if (petList.length > 0) {
@@ -29,7 +29,7 @@ const PetList = React.createClass({
       </div>
     )
   }
-})
+}
 
 const mapStateToProps = function (state) {
   return {
